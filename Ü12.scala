@@ -4,196 +4,189 @@
 
 /* Aufgabe 1a
 
-Bei dem Entwerfen von Scala könnte auf die Mehrfachvererbung verzichtet worden sein, da 
+Bei dem Entwerfen von Scala könnte auf die Mehrfachvererbung verzichtet worden sein, da
 ein Vererbungsdiagramm mit Mehrfachvererbung sehr schnell sehr kompliziert und unübersichtlich
 werden kann. Dementsprechend würde auch der Quellcode sehr komplex werden, weswegen der Einsatz
 von Traits deutlich einfacher ist.
 
-*/
+ */
 
 // -------------------------------------------------------------------------------------------------------------------------------
 
 // Aufgabe 1b
 
 trait MyStack[A]:
-    // (I): Objects of an arbitrary but fixed type A are stored in a stack.
+  // (I): Objects of an arbitrary but fixed type A are stored in a stack.
 
-    // Precondition: None
-    // Result: None
-    // Effect: x is now the most recent element in the stack.
-    def push(x : A) : Unit
+  // Precondition: None
+  // Result: None
+  // Effect: x is now the most recent element in the stack.
+  def push(x: A): Unit
 
-    // Precondition: Stack is not empty.
-    // Result: The most recent element is returned.
-    // Effect: The most recent element is removed from the stack.
-    def pop() : A
+  // Precondition: Stack is not empty.
+  // Result: The most recent element is returned.
+  // Effect: The most recent element is removed from the stack.
+  def pop(): A
 
-    // Precondition: Stack is not empty.
-    // Result: The most recent element is returned.
-    // Effect: None
-    def top : A
+  // Precondition: Stack is not empty.
+  // Result: The most recent element is returned.
+  // Effect: None
+  def top: A
 
-    // Precondition: None
-    // Result: None
-    // Effect: true is returned if and only if the stack has no elements.
-    def isEmpty : Boolean
+  // Precondition: None
+  // Result: None
+  // Effect: true is returned if and only if the stack has no elements.
+  def isEmpty: Boolean
 
-    // Precondition: None
-    // Result: None
-    // Effect: The number of elements in the stack is returned.
-    def size : Int
-
-
+  // Precondition: None
+  // Result: None
+  // Effect: The number of elements in the stack is returned.
+  def size: Int
 
 // Funktion zum testen der Korrektheit eines Klammerausdrucks:
 
-def klammerPrüf(s: String) : Boolean =
-    var stack : MyStack[Char] = DynamicArrayStack[Char]
-    for i <- 0 to (s.length)-1 do
-        if s(i) == '(' || s(i) == '[' || s(i) == '{' then
-            stack.push(s(i))        // jede geöffnete Klammer wird auf den Stapel gepusht
-        else if s(i) == ')' then    
-            if stack.top == '(' then    // wenn die zuletzt geöffnete Klammer zu der geschlossenen
-                stack.pop()             // passt, wird die geöffnete Klammer mit pop() entfernt
-            else false
-        else if s(i) == ']' then
-            if stack.top == '[' then    // wenn die zuletzt geöffnete Klammer zu der geschlossenen
-                stack.pop()             // passt, wird die geöffnete Klammer mit pop() entfernt
-            else false
-        else
-            if stack.top == '{' then    // wenn die zuletzt geöffnete Klammer zu der geschlossenen
-                stack.pop()             // passt, wird die geöffnete Klammer mit pop() entfernt
-            else false
-    stack.size == 0                     // wenn alle geöffneten Klammer richtig geschlossen wurden
-                                        // ist die Größe des Stacks 0 und true ist geliefert
-    
+def klammerPrüf(s: String): Boolean =
+  var stack: MyStack[Char] = DynamicArrayStack[Char]
+  for i <- 0 to (s.length) - 1 do
+    if s(i) == '(' || s(i) == '[' || s(i) == '{' then
+      stack.push(s(i)) // jede geöffnete Klammer wird auf den Stapel gepusht
+    else if s(i) == ')' then
+      if stack.top == '('
+      then // wenn die zuletzt geöffnete Klammer zu der geschlossenen
+        stack.pop() // passt, wird die geöffnete Klammer mit pop() entfernt
+      else false
+    else if s(i) == ']' then
+      if stack.top == '['
+      then // wenn die zuletzt geöffnete Klammer zu der geschlossenen
+        stack.pop() // passt, wird die geöffnete Klammer mit pop() entfernt
+      else false
+    else if stack.top == '{'
+    then // wenn die zuletzt geöffnete Klammer zu der geschlossenen
+      stack.pop() // passt, wird die geöffnete Klammer mit pop() entfernt
+    else false
+  stack.size == 0 // wenn alle geöffneten Klammer richtig geschlossen wurden
+  // ist die Größe des Stacks 0 und true ist geliefert
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
 // Aufgabe 1c
 
 trait MyStackMulti[A]:
-    // (I): Objects of an arbitrary but fixed type A are stored in a stack.
+  // (I): Objects of an arbitrary but fixed type A are stored in a stack.
 
-    // Precondition: None
-    // Result: None
-    // Effect: x is now the most recent element in the stack.
-    def push(x : A) : Unit
+  // Precondition: None
+  // Result: None
+  // Effect: x is now the most recent element in the stack.
+  def push(x: A): Unit
 
-    // Precondition: Stack is not empty.
-    // Result: The most recent element is returned.
-    // Effect: The most recent element is removed from the stack.
-    def pop() : A
+  // Precondition: Stack is not empty.
+  // Result: The most recent element is returned.
+  // Effect: The most recent element is removed from the stack.
+  def pop(): A
 
-    // Precondition: Stack is not empty.
-    // Result: The most recent element is returned.
-    // Effect: None
-    def top : A
+  // Precondition: Stack is not empty.
+  // Result: The most recent element is returned.
+  // Effect: None
+  def top: A
 
-    // Precondition: None
-    // Result: None
-    // Effect: true is returned if and only if the stack has no elements.
-    def isEmpty : Boolean
+  // Precondition: None
+  // Result: None
+  // Effect: true is returned if and only if the stack has no elements.
+  def isEmpty: Boolean
 
-    // Precondition: None
-    // Result: None
-    // Effect: The number of elements in the stack is returned.
-    def size : Int
+  // Precondition: None
+  // Result: None
+  // Effect: The number of elements in the stack is returned.
+  def size: Int
 
-    // Precondition: None
-    // Result: None
-    // Effect: All Elements of l are pushed on to the Stack.
-    def multipush(l : List[A]) : Unit
-
-
+  // Precondition: None
+  // Result: None
+  // Effect: All Elements of l are pushed on to the Stack.
+  def multipush(l: List[A]): Unit
 
 class LinkedNodesStack[A] extends MyStackMulti[A]:
-    private class Node(var item : A, val next :Node)
+  private class Node(var item: A, val next: Node)
 
-    // Verwaltungskopf:
-    private var topNode : Node = null
-    private var _size : Int = 0
+  // Verwaltungskopf:
+  private var topNode: Node = null
+  private var _size: Int = 0
 
-    def isEmpty : Boolean = topNode == null
+  def isEmpty: Boolean = topNode == null
 
-    def size : Int = _size
+  def size: Int = _size
 
-    def top : A =
-        if !isEmpty then topNode.item
-        else throw new Exception("Stack ist leer!")
+  def top: A =
+    if !isEmpty then topNode.item
+    else throw new Exception("Stack ist leer!")
 
-    def pop() : A =
-        if !isEmpty then
-            val result : A = topNode.item
-            topNode = topNode.next      // Garbage Collection
-            _size = _size - 1
-            result
-        else throw new Exception("Stack ist leer!")
+  def pop(): A =
+    if !isEmpty then
+      val result: A = topNode.item
+      topNode = topNode.next // Garbage Collection
+      _size = _size - 1
+      result
+    else throw new Exception("Stack ist leer!")
 
-    def push(x:A) : Unit =
-        val node : Node = Node(x,topNode)
-        topNode = node
-        _size = _size + 1
-    
-    def multipush(l:List[A]) : Unit =
-        for i <- 0 to (l.length) - 1 do             // alle Elemente der Liste werden gepusht
-            val node : Node = Node(l(i),topNode)
-            topNode = node
-            _size = _size + 1
+  def push(x: A): Unit =
+    val node: Node = Node(x, topNode)
+    topNode = node
+    _size = _size + 1
 
+  def multipush(l: List[A]): Unit =
+    for i <- 0 to (l.length) - 1 do // alle Elemente der Liste werden gepusht
+      val node: Node = Node(l(i), topNode)
+      topNode = node
+      _size = _size + 1
 
 @main
-def test1c_LinkedNotes() : Unit =
-    val testStack : MyStackMulti[Int] = LinkedNodesStack[Int]()
-    testStack.multipush(List(1,2,3,4,5))
-    while !testStack.isEmpty do
-        println(testStack.pop())
-        
+def test1c_LinkedNotes(): Unit =
+  val testStack: MyStackMulti[Int] = LinkedNodesStack[Int]()
+  testStack.multipush(List(1, 2, 3, 4, 5))
+  while !testStack.isEmpty do println(testStack.pop())
 
-
-
-import scala.reflect.ClassTag   // für Array mit beliebigen Datentypen
+import scala.reflect.ClassTag // für Array mit beliebigen Datentypen
 
 // Vorraussetzung: None
 // Effekt: None
 // Ergebnis: Ein leerer Stack mit Kapazität max(1,capacity) ist geliefert.
-class ArrayStack[A:ClassTag](capacity:Int) extends MyStackMulti[A]:
-    // Verwaltungskopf:
-    private val array : Array[A]= new Array[A](if capacity < 1 then 1 else capacity)
-    private var amount : Int = 0
+class ArrayStack[A: ClassTag](capacity: Int) extends MyStackMulti[A]:
+  // Verwaltungskopf:
+  private val array: Array[A] =
+    new Array[A](if capacity < 1 then 1 else capacity)
+  private var amount: Int = 0
 
-    def isEmpty : Boolean = amount == 0
-    def size : Int = amount
-    def top : A =
-        if !isEmpty then array(amount-1)
-        else throw new Exception("Stack ist leer!")
-    
-    def push(x:A) : Unit =
-        if amount <= array.length -1 then
-            array(amount) = x
-            amount = amount + 1
-        else throw new Exception("Stack ist voll!")
-    
-    def pop() : A =
-        if !isEmpty then
-            val result : A = array(amount-1)
-            array(amount-1) = null.asInstanceOf[A]
-            amount = amount - 1
-            result
-        else throw new Exception ("Stack ist leer!")
-    
-    def multipush(l:List[A]) : Unit =
-        var i : Int = 0
-        while amount <= (array.length) - 1 && i <= (l.length) - 1 do    // alle Elemente der Liste werden gepusht
-            array(amount) = l(i)
-            amount = amount + 1
-            i = i + 1
+  def isEmpty: Boolean = amount == 0
+  def size: Int = amount
+  def top: A =
+    if !isEmpty then array(amount - 1)
+    else throw new Exception("Stack ist leer!")
 
-def test1c_Array() : Unit =
-    val testStack : MyStackMulti[Int] = ArrayStack[Int](11)
-        testStack.multipush(List(1,2,3,4,5,6,7,8,9,10))
-    while !testStack.isEmpty do
-        println(testStack.pop())
+  def push(x: A): Unit =
+    if amount <= array.length - 1 then
+      array(amount) = x
+      amount = amount + 1
+    else throw new Exception("Stack ist voll!")
+
+  def pop(): A =
+    if !isEmpty then
+      val result: A = array(amount - 1)
+      array(amount - 1) = null.asInstanceOf[A]
+      amount = amount - 1
+      result
+    else throw new Exception("Stack ist leer!")
+
+  def multipush(l: List[A]): Unit =
+    var i: Int = 0
+    while amount <= (array.length) - 1 && i <= (l.length) - 1
+    do // alle Elemente der Liste werden gepusht
+      array(amount) = l(i)
+      amount = amount + 1
+      i = i + 1
+
+def test1c_Array(): Unit =
+  val testStack: MyStackMulti[Int] = ArrayStack[Int](11)
+  testStack.multipush(List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+  while !testStack.isEmpty do println(testStack.pop())
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
@@ -201,49 +194,47 @@ def test1c_Array() : Unit =
 
 import scala.reflect.ClassTag
 
-class DynamicArrayStack[A : ClassTag] extends MyStack[A]:
+class DynamicArrayStack[A: ClassTag] extends MyStack[A]:
 
-    private var array : Array[A] = new Array[A](1)
-    private var amount : Int = 0
+  private var array: Array[A] = new Array[A](1)
+  private var amount: Int = 0
 
-    private def resize() : Unit =
-        val cap : Int = array.length
-        if cap/8 <= amount && amount < cap then return      // veränderte INV
+  private def resize(): Unit =
+    val cap: Int = array.length
+    if cap / 8 <= amount && amount < cap then return // veränderte INV
 
-        val newArray : Array[A] = new Array[A](if cap/8 > amount then cap/4 else cap*4) // veränderte Grenzen
+    val newArray: Array[A] = new Array[A](
+      if cap / 8 > amount then cap / 4 else cap * 4
+    ) // veränderte Grenzen
 
-        for i <- 0 to amount-1 do
-            newArray(i) = array(i)
-        array = newArray
+    for i <- 0 to amount - 1 do newArray(i) = array(i)
+    array = newArray
 
-    def push(x:A) : Unit =
-        array(amount) = x
-        amount = amount + 1
-        resize()
-    
-    def pop() : A =
-        if !isEmpty then
-            val result : A = array(amount-1)
-            array(amount -1) = null.asInstanceOf[A]
-            amount = amount - 1
-            resize()
-            result
-        else throw new Exception("Stack is empty")
-    
-    def top : A =
-        if !isEmpty then array(amount-1)
-        else throw new Exception("Stack is empty")
+  def push(x: A): Unit =
+    array(amount) = x
+    amount = amount + 1
+    resize()
 
-    def isEmpty : Boolean = amount == 0
-    def size : Int = amount
+  def pop(): A =
+    if !isEmpty then
+      val result: A = array(amount - 1)
+      array(amount - 1) = null.asInstanceOf[A]
+      amount = amount - 1
+      resize()
+      result
+    else throw new Exception("Stack is empty")
 
-def test1d(): Unit = 
-    var testStack : MyStack[Int] = new DynamicArrayStack[Int]
-    for i <- 0 to 50 do
-        testStack.push(i)
-    while !testStack.isEmpty do 
-        println(testStack.pop())
+  def top: A =
+    if !isEmpty then array(amount - 1)
+    else throw new Exception("Stack is empty")
 
+  def isEmpty: Boolean = amount == 0
+  def size: Int = amount
+
+def test1d(): Unit =
+  var testStack: MyStack[Int] = new DynamicArrayStack[Int]
+  for i <- 0 to 50 do testStack.push(i)
+  while !testStack.isEmpty do println(testStack.pop())
 
 /*  Vergleich der beiden Implementierungen von DynamicArrayStack:
 
@@ -262,7 +253,7 @@ def test1d(): Unit =
 Allgemein kann man sagen, dass beide Varianten ihre Vor- und Nachteile haben, jedoch kann der Zeitaufwand im Gegensatz zum
 nicht verbrauchten Speicher sehr gering ausfallen, weswegen die erste Variante vermutlich effizienter wäre.
 
-*/
+ */
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
@@ -281,20 +272,20 @@ nicht verbrauchten Speicher sehr gering ausfallen, weswegen die erste Variante v
         if wert1 >= wert2 then
             wert1
         else wert2
-    
+
     def vergleich(wert1:Int,wert2:Int,wert3:Int) : Int =
         if wert1 >= wert2 && wert1 >= wert3 then
             wert1
         else if wert2 >= wert1 && wert2 >= wert3 then
             wert2
         else wert3
-    
+
 (b) Coercion:
 
     Scala unterstützt Coercion, was heißt das man einen Datentypen in einen anderen Datentypen umwandeln kann.
-    Dafür gibt es verschiedene Wege in Scala, wie die Promotion eines Datentypen zu einem anderen, mit dem Befehl 
+    Dafür gibt es verschiedene Wege in Scala, wie die Promotion eines Datentypen zu einem anderen, mit dem Befehl
     asInstanceOf[] und mit Pattern Matching, welche alle ihre Vor- und Nachteile haben.
-    
+
     (1) Beispiel:
 
     var b : Byte = 5
@@ -324,8 +315,8 @@ nicht verbrauchten Speicher sehr gering ausfallen, weswegen die erste Variante v
     Einer Variable vom Typ A, kann ein Objekt vom Typ B zugeordnet werden, falls B eine
     Unterklasse von A ist.
 
-    Beispiel: 
-    
+    Beispiel:
+
     class Person : ...
     class Studierender extends Person : ...
     class Prof extends Person : ...
@@ -347,111 +338,106 @@ nicht verbrauchten Speicher sehr gering ausfallen, weswegen die erste Variante v
     class Informatiker extends Arbeitender : ...
         override def work() : Unit = ...
 
-*/
+ */
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
 // Aufgabe 2b
 
 trait MyQueue[A]:
-    def enqueue(x:A):Unit
-    def dequeue():A
-    def isEmpty : Boolean
-    def size : Int
+  def enqueue(x: A): Unit
+  def dequeue(): A
+  def isEmpty: Boolean
+  def size: Int
 
 import scala.reflect.ClassTag
 
 // Precondition: None
 // Effect: None
 // Result: An empty stack of maximum capacity max(1, capacity) is returned.
-class DynamicArrayQueue[A : ClassTag] extends MyQueue[A]:
-    // The header:
-    private var array : Array[A] = new Array[A](2)
-    private var n : Int = 2
-    private var front : Int = 0
-    private var back : Int = 0
+class DynamicArrayQueue[A: ClassTag] extends MyQueue[A]:
+  // The header:
+  private var array: Array[A] = new Array[A](2)
+  private var n: Int = 2
+  private var front: Int = 0
+  private var back: Int = 0
 
-    // Precondition: None
-    // Result: None
-    // Effect: (newBack != front && array.length/4 < (n+back-front)%n (size of the Array)) holds.
-    private def resize() : Unit =
-        var cap : Int = array.length
-        var newBack : Int = (back+1) % n
-        if newBack != front && cap/4 <= ((n+back-front)%n)-1 then return // do nothing if INV holds
-        var temp : Int = 0
+  // Precondition: None
+  // Result: None
+  // Effect: (newBack != front && array.length/4 < (n+back-front)%n (size of the Array)) holds.
+  private def resize(): Unit =
+    var cap: Int = array.length
+    var newBack: Int = (back + 1) % n
+    if newBack != front && cap / 4 <= ((n + back - front) % n) - 1 then
+      return // do nothing if INV holds
+    var temp: Int = 0
 
-        // allocate a new array with double the size of the old array if the queue is full:
-        if newBack == front then
+    // allocate a new array with double the size of the old array if the queue is full:
+    if newBack == front then
 
-            var newArray : Array[A] = new Array[A](cap*2)
-            n = newArray.length
+      var newArray: Array[A] = new Array[A](cap * 2)
+      n = newArray.length
 
-            // Copy all elements to new array:
-            for i <- front to back do
-                newArray(temp) = array(i)
-                temp = temp + 1
+      // Copy all elements to new array:
+      for i <- front to back do
+        newArray(temp) = array(i)
+        temp = temp + 1
 
-            array = newArray // the old array is now removed
-            println("Das neue Array sieht jetzt wie folgt aus: ")
-            val l : List[A] = array.toList
-            println(l)
+      array = newArray // the old array is now removed
+      println("Das neue Array sieht jetzt wie folgt aus: ")
+      val l: List[A] = array.toList
+      println(l)
+    else // allocate a new array with half the size of the old array if the queue is too empty:
+    if array.length <= 2 then return
+    else
+      var newArray: Array[A] = new Array[A](cap / 2)
+      n = newArray.length
 
-        else    // allocate a new array with half the size of the old array if the queue is too empty:
-            if array.length <= 2 then return
-            else
-                var newArray : Array[A] = new Array[A](cap/2)
-                n = newArray.length
+      // Copy all elements to new array:
+      for i <- front to back do
+        newArray(temp) = array(i)
+        temp = temp + 1
 
-                // Copy all elements to new array:
-                for i <- front to back do
-                    newArray(temp) = array(i)
-                    temp = temp + 1
+      array = newArray // the old array is now removed
+      back = ((n + back - front) % n)
+      front = 0
+      println("Das neue Array sieht wie folgt aus: ")
+      val l: List[A] = array.toList
+      println(l)
 
-                array = newArray // the old array is now removed
-                back = ((n+back-front) % n)
-                front = 0
-                println("Das neue Array sieht wie folgt aus: ")
-                val l : List[A] = array.toList
-                println(l)
+  def enqueue(x: A): Unit =
+    // The next position after back
+    // in the cycling ordering:
+    var newBack: Int = (back + 1) % n
+    array(back) = x
+    println("Das Array sieht nach enqueue wie folgt aus: ")
+    val l: List[A] = array.toList
+    println(l)
+    back = newBack
+    resize() // prüft ob Array vergrößert/verkleinert werden muss
 
+  def dequeue(): A =
+    if !isEmpty then
+      val result: A = array(front)
+      array(front) = null.asInstanceOf[A]
+      println("Das Array sieht nach dequeue wie folgt aus: ")
+      val l: List[A] = array.toList
+      println(l)
+      // one position further in the cyclic ordering
+      front = (front + 1) % n
+      resize() // prüft ob Array vergrößert/verkleinert werden muss
+      result
+    else throw new Exception("The queue ist empty")
 
+  // The queue is empty if and only if front == back.
+  def isEmpty: Boolean = front == back
+  def size: Int = (n + back - front) % n
 
-    def enqueue(x:A) : Unit =
-        // The next position after back
-        // in the cycling ordering:
-        var newBack : Int = (back+1) % n
-        array(back) = x
-        println("Das Array sieht nach enqueue wie folgt aus: ")
-        val l : List[A] = array.toList
-        println(l)
-        back = newBack
-        resize()                // prüft ob Array vergrößert/verkleinert werden muss
-
-    def dequeue() : A =
-        if !isEmpty then
-            val result : A = array(front)
-            array(front) = null.asInstanceOf[A]
-            println("Das Array sieht nach dequeue wie folgt aus: ")
-            val l : List[A] = array.toList
-            println(l)
-            // one position further in the cyclic ordering
-            front = (front+1) % n
-            resize()                // prüft ob Array vergrößert/verkleinert werden muss
-            result
-        else throw new Exception("The queue ist empty")
-    
-    // The queue is empty if and only if front == back.
-    def isEmpty : Boolean = front == back
-    def size : Int = (n+back-front) % n
-
-
-def test2b() : Unit =  
-    val testQueue : MyQueue[Int] = new DynamicArrayQueue[Int]
-    for i <- 0 to 7 do
-        testQueue.enqueue(i)
-    println("Jetzt beginnt dequeue: ")
-    while !testQueue.isEmpty do
-        testQueue.dequeue()
+def test2b(): Unit =
+  val testQueue: MyQueue[Int] = new DynamicArrayQueue[Int]
+  for i <- 0 to 7 do testQueue.enqueue(i)
+  println("Jetzt beginnt dequeue: ")
+  while !testQueue.isEmpty do testQueue.dequeue()
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
@@ -475,16 +461,16 @@ Speichereffizienz der Implementierungen:
 
 Hier kann im Vergleich festgestellt werden, dass die Speichereffizienz der Implementierung mit LinkedNodes am besten ist, da die
 Queue genau so viele Elemente besitzt wie sie auch insgesamt haben soll. Die nächst beste Speichereffizienz besitzt die
-Implementierung mit einem dynamischen Array, da die Größe des Arrays durch die Funktion resize passend skaliert wird, wodurch die 
+Implementierung mit einem dynamischen Array, da die Größe des Arrays durch die Funktion resize passend skaliert wird, wodurch die
 Anzahl der leeren Elemente des Arrays minimiert wird. Die Implementierung mit einem statischen Array hat dabei die schlechteste
 Speichereffizienz, da die Größe des Arrays garnicht erst skaliert, wodurch viele leere Elemente im Arrys auftreten können.
 
 Laufzeit der Implementierungen:
 
-Hier kann im Vergleich festgestellt werden, dass die Implementierung mit einem dynamischen Array und die Implementierung mit 
+Hier kann im Vergleich festgestellt werden, dass die Implementierung mit einem dynamischen Array und die Implementierung mit
 einem statischen Array besser sind, da sie anders als eine Queue mit LinkedNodes, ein sehr gutes Cachingverhalten haben.
 
-*/
+ */
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -495,47 +481,152 @@ import scala.reflect.ClassTag
 // Precondition: None
 // Effect: None
 // Result: An empty stack of maximum capacity max(1, capacity) is returned.
-class ArrayQueue[A : ClassTag](capacity : Int) extends MyQueue[A]:
-    // The header:
-    private val n : Int = if capacity < 1 then 1 else capacity
-    private val array : Array[A] = new Array[A](n)
-    private var front : Int = 0
-    private var back : Int = 0
-    private var isFull : Boolean = false    // zusätzliche Variable um zu prüfen ob die Queue voll ist
+class ArrayQueue[A: ClassTag](capacity: Int) extends MyQueue[A]:
+  // The header:
+  private val n: Int = if capacity < 1 then 1 else capacity
+  private val array: Array[A] = new Array[A](n)
+  private var front: Int = 0
+  private var back: Int = 0
+  private var isFull: Boolean =
+    false // zusätzliche Variable um zu prüfen ob die Queue voll ist
 
-    def enqueue(x : A) : Unit = 
-        println("Hier enqueue: ")
-        if isFull == false then             // wenn Queue nicht voll, dann kann enqueue ausgeführt werden
-            array(back) = x
-            var l2 : List[A] = array.toList
-            println("Das Array sieht nach enqueue wie folgt aus: ")
-            println(l2)
-            back = (back+1)%n
-            if back == front then isFull = true             // Stack ist voll, wenn nach enqueue back == front
-        else throw new Exception("The queue is full")
+  def enqueue(x: A): Unit =
+    println("Hier enqueue: ")
+    if isFull == false
+    then // wenn Queue nicht voll, dann kann enqueue ausgeführt werden
+      array(back) = x
+      var l2: List[A] = array.toList
+      println("Das Array sieht nach enqueue wie folgt aus: ")
+      println(l2)
+      back = (back + 1) % n
+      if back == front then
+        isFull = true // Stack ist voll, wenn nach enqueue back == front
+    else throw new Exception("The queue is full")
 
-    def dequeue() : A =
-        if !isEmpty then
-            val result : A = array(front)
-            array(front) = null.asInstanceOf[A]
-            // one position further in the cyclic ordering
-            front = (front + 1) % n
-            isFull = false                  // Queue ist nicht mehr voll, wenn ein Element "bearbeitet" wurde
-            result
-        else throw new Exception("The queue is empty")
+  def dequeue(): A =
+    if !isEmpty then
+      val result: A = array(front)
+      array(front) = null.asInstanceOf[A]
+      // one position further in the cyclic ordering
+      front = (front + 1) % n
+      isFull =
+        false // Queue ist nicht mehr voll, wenn ein Element "bearbeitet" wurde
+      result
+    else throw new Exception("The queue is empty")
 
-    // The queue is empty if front == back ans isFull == false
-    def isEmpty : Boolean = if front == back && isFull == false then true else false
-    def size : Int = (n+back-front) % n
+  // The queue is empty if front == back ans isFull == false
+  def isEmpty: Boolean =
+    if front == back && isFull == false then true else false
+  def size: Int = (n + back - front) % n
 
-def test2d() : Unit =  
-    val testQueue : MyQueue[Int] = new ArrayQueue[Int](11)
-    for i <- 0 to 10 do
-        testQueue.enqueue(i)
-    for i <- 0 to 10 do
-        println(testQueue.dequeue())
+def test2d(): Unit =
+  val testQueue: MyQueue[Int] = new ArrayQueue[Int](11)
+  for i <- 0 to 10 do testQueue.enqueue(i)
+  for i <- 0 to 10 do println(testQueue.dequeue())
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 
-// Aufgabe 2e
+//Aufgabe 2d ( da in der Aufgabenstellung nicht explizit angegeben wurde, wie genau aus den VIPs entschieden wird
+//           haben wir das Programm mit zwei seperaten Queues gelöst )
 
+// der Trait MyVIP beinhaltet alle eigenschaften des MyQueue Traits, aber beinhaltet die Funktionsdefinitionen für das enqueuen von VIPs,
+// die Anzahl der VIPs (vipsize) und ob es überhaupt welche gibt (vipEmpty)
+
+trait MyVIP[A]:
+
+  // Precondition: None
+  // Result: None
+  // Effect: x is now the most recent element in the queue.
+  def enqueue(x: A): Unit
+
+  // Precondition: Queue is not empty.
+  // Result: The oldest element is returned.
+  // Effect: The oldest element is removed from the queue.
+  def dequeue(): A
+
+  // Precondition: None
+  // Effect: None
+  // Result: true is returned if and only if the queue has no elements.
+  def isEmpty: Boolean
+
+  // Precondition: None
+  // Effect: None
+  // Result: The number of elements in the queue is returned.
+  def size: Int
+
+  // Voraussetzung: keine
+  // Effekt: keine Effekte
+  // Ergbnis: a ist das hinterste Elemnet der VIP-Warteschlange
+
+  def enqueueVIP(a: A): Unit
+
+  // Voraussetzung: keine
+  // Effekt: keine
+  // Ergebnis: true ist zurückgegeben wenn die Schlange leer ist
+
+  def vipEmpty: Boolean
+
+  // Voraussetzung: keine
+  // Effekt: keine
+  // Ergbnis: Länge der VIP- Warteschlange ist gegeben
+
+  def vipsize: Int
+
+class LinkedListQueue[A] extends MyVIP[A]:
+  // The inner class:
+  private class Node(val item: A, var next: Node)
+
+  // Header:
+  private var head: Node = null
+  private var tail: Node = null
+  private var _size: Int = 0
+  private var vipHead: Node = null // Variablen für die VIP Schlange
+  private var vipTail: Node = null
+  private var vipSize: Int = 0
+
+  def enqueue(x: A): Unit =
+    if !isEmpty then
+      tail.next = Node(x, null)
+      tail = tail.next
+    else
+      tail = Node(x, null)
+      head = tail
+    _size = _size + 1
+
+  def dequeue(): A =
+    if !vipEmpty
+    then // wenn es VIP Elemnete gibt werden diese zuwerts aus der Schlange genommen (untereinander im FIFO-Prinzip)
+      val result: A = vipHead.item
+      vipHead = vipHead.next
+      if vipHead == null then vipTail = null
+      vipSize = vipSize - 1
+      result
+    else if !isEmpty then
+      val result: A = head.item
+      head = head.next
+      if head == null then tail == null
+      _size = _size - 1
+      result
+    else throw Exception("die Warteschlange ist leer!!!!")
+
+  def enqueueVIP(x: A): Unit = // gleich mit der normalnen enqueue Methode
+    if !vipEmpty then
+      vipTail.next = Node(x, null)
+      vipTail = vipTail.next
+    else
+      vipTail = Node(x, null)
+      vipHead = vipTail
+    vipSize = vipSize + 1
+
+  // The queue is empty if and only if the head
+  // is null (which means that the tail is also null).
+  def isEmpty: Boolean = head == null
+  def size: Int = _size
+  def vipEmpty: Boolean = vipHead == null
+  def vipsize: Int = vipSize
+
+def test2e(): Unit =
+  val testQueue: MyVIP[Int] = LinkedListQueue[Int]()
+  for i <- 0 to 10 do testQueue.enqueue(i)
+  for j <- 25 to 30 do testQueue.enqueueVIP(j)
+  while !testQueue.isEmpty do println(testQueue.dequeue())
