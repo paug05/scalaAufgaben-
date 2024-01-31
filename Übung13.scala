@@ -1,5 +1,5 @@
 // Übungszettel 13
-// Tim Duske und Paul Gnädig
+// Paul Gnädig und Tim Duske
 // 30.01.2024
 
 // Aufgabe 1a ----------------------------------------------------------------------------------
@@ -72,8 +72,6 @@ class LinkedNodesPairQueue[K:Ordering, V]() extends PairPrioQueue[K,V]:
             var result : Node = vorKleinste.next
             vorKleinste.next = vorKleinste.next.next
             _size = _size - 1
-            // println(result.key)
-            // println(result.value)
             result.value
 
 def test1b() =
@@ -84,13 +82,9 @@ def test1b() =
     n.insert(2,0.3456)
     n.insert(3,0.7644)
 
-    n.extractMin()
-    println(n.size)
-    println(n.isEmpty)
-    n.extractMin()
-    n.extractMin()
-    println(n.size)
-    println(n.isEmpty)
+    println(n.extractMin())
+    println(n.extractMin())
+    println(n.extractMin())
 
 
 // Aufgabe 1c ------------------------------------------------------------------------------------
@@ -155,33 +149,36 @@ def test1c()=
     while !testStack.isEmpty do
         println(testStack.pop())
 
+// Aufgabe 2a -----------------------------------------------------------------------------------
 
+// siehe PDF-Datei
 
-// Aufgabe 2b 
-
-/*
+/* Aufgabe 2b ------------------------------------------------------------------------------------
 
 (1) 2 hoch i Elemente in Ebene i in einem Heap:
 
-    Auf Ebene 0 hat ein Heap genau 1 Element (die Wurzel) also 2 hoch 0 Elemente. Da wir einen binären Heap betrachten hat jedes
-    Element 2 Kinder (rechts und links). Durch dieses Verhalten wird beim herunterwandern in den Ebenen die Anzahl der Elemnte 
-    immer verdoppelt. Da wir immer zwei Kinder haben und sich die Anzahl immer verdoppelt können wir für eine beliebige Ebene i 
-    kleiner als die Höhe des Baumes (die unterste Ebene muss nicht vollständig befüllt sein), die Anzahl der Elemente durch 2 hoch i berechnen.
+    Angenommen T ist ein Heap mit n Elementen und Höhe h, welcher die Ordnungseigenschaft und die Vollständigkeitseigenschaft erfüllt.
+    Dann ist der Heap nach der Vollständigkeitseigenschaft auf jeder Ebene 0...h-1 volständig gefüllt. Somit hat der Heap auf Ebene 0 
+    genau 1 Element also 2 hoch 0 Elemente. Da wir einen binären Heap betrachten hat jedes Element 2 Kinder (rechtes Kind und linkes 
+    Kind). Somit kann die Anzahl der Elemente einer Ebene 0 <= i < h mit 2^i berechnet werden, da wir für jeden Knoten der darüber
+    liegenden Ebene zwei Kinder in der betrachteten Ebene haben. Hat die obere Ebene also i Knoten, so hat die betrachtete Ebene
+    2^i Kinder, bzw. Knoten.
+    
 
-(2) auf Ebene h mindestens 1 und höchtens 2 hoch h Elemente 
+(2) Auf Ebene h mindestens 1 und höchtens 2 hoch h Elemente 
 
-    Ebene h spiegelt in diesem Fall die unterste Ebene wieder, dass heißt, das sie maximal 2 hoch h Elemnet haben darf (geht aus (1)hervor )
-    da wir sonst zu viele Elemente in der Ebene hätten und h so nicht mehr die die Höhe repräsentiert (wäre sonst h+1).
-    Außerdem hat diese Ebene mindestens 1 Element, da sie sonst nicht existeren würde (Höhe wäre sonst h-1).
-    Aus diesen beiden Vehalten kann man die Aussage folgern das es auf der Ebene der Höhe mindestens 1 und maximal 2 hoch höhe 
-    Elemnet gibt.
+    Angenommen T ist ein Heap mit n Elementen und Höhe h, welcher die Ordnungseigenschaft und die Vollständigkeitseigenschaft erfüllt.
+    Die Ebene h spiegelt in diesem Fall die unterste Ebene wieder, dass heißt, das sie, nach der Volständigkeitseigenschaft und (1),
+    maximal 2^h Elemente haben kann. Außerdem hat diese Ebene mindestens 1 Element, da sie sonst nicht existeren würde und die Ebene
+    darüber die Höhe des Baumes darstellen würde. Aus diesen beiden Vehalten kann man die Aussage folgern das es auf der Ebene der 
+    Höhe mindestens 1 und maximal 2^h Elemente gibt.
 
-(3)
+(3) siehe PDF-Datei
 
+(4) siehe PDF-Datei
 
 */
-
-// Aufgabe 2c ternärer Heap
+// Aufgabe 2c ------------------------------------------------------------------------------------
 
 trait MyPrioQueue[K: Ordering]:
 
@@ -199,8 +196,6 @@ trait MyPrioQueue[K: Ordering]:
     // Result: None
     // Effect: true is returned if the Queue has no Nodes, except the dummy Node.
     def isEmpty : Boolean
-
-
 
 
 import scala.reflect.ClassTag
@@ -225,9 +220,9 @@ class TernärHeap[K:Ordering:ClassTag](capacity:Int) extends MyPrioQueue[K]:
     def isEmpty : Boolean = last == -1
 
     private def minThree(a:Array[K],i:Int,j:Int,k:Int) : Int =
-        if array(i) <= array(j) && array(i) <= array(k) then
+        if array(i) < array(j) && array(i) < array(k) then
             i
-        else if array(j) <= array(i) && array(j) <= array(k) then
+        else if array(j) < array(i) && array(j) < array(k) then
             j
         else
             k
@@ -271,8 +266,7 @@ def test2c()=
     for i <- 0 to 9 do
         println(t.extractMin())
 
-
-// Aufgabe 2d: Wieso ist eine Vergelichs-Operation immer langsamer als die andere 
+// Aufgabe 2d ------------------------------------------------------------------------------------
 
 /* 
 Da wir durch die Anmerkung in der Aufgabe wissen, dass ein Sortieralgorithmus mindestens die laufzeit n * log n hat und bekannt ist
