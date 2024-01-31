@@ -275,14 +275,22 @@ def test2c()=
 // Aufgabe 2d: Wieso ist eine Vergelichs-Operation immer langsamer als die andere 
 
 /* 
-Bei einer Prio Queue mus zwische zwei Fällen untescheiden:
+Da wir durch die Anmerkung in der Aufgabe wissen, dass ein Sortieralgorithmus mindestens die laufzeit n * log n hat und bekannt ist
+,dass diese mit Vergleichsoprationen arbeiten, kann man daraus Schlussfolgern, dass es keinen Algorithmus geben wird er beide Operationen
+der Prio-Queue schneller durchführen kann.
 
-1. wir haben eine bereits geordnete Queue: 
-    Beim einfügen (insert) eines neun Elements haben wir die Laufzeit O(n), da wir die komplette Queue abarbeiten 
-    um die passende Stelle zu ermitteln. Bei der extractMin Methode habe nwir die konstante Laufzeit O(1), da das Minimum 
-    immer an erster Stelle liegt.
+1. Prio_Queue in der LinkedNodes Implementierung:
+    Falls wir eine Prio-Queue über die Linked Nodes Implemntierung haben kann man nochmal zwischen sortiert un unsortiert unterscheiden
+    Im sortierten Fall ist die Laufzeit vom insert O(n), da man die ganze Liste ablaufen muss. Beim extractMin haben wir die 
+    Laufzeit O(1), da das Minimum an erster Stelle liegt. In einer unsortierten Queue sind die Laufzeien genau umgekehrt.
 
-2. wir haben keine geordnete Queue:
-    Beim insert wird das neue Element einafch eingefügt => konstante Laufzeit von O(1). Bei extractMin muss  
+    => eine der beiden Methoden hat die Laufzeit O(n) und die andere O(1) 
+
+2. Prio-Queue in der Heap Implementeirung:
+    Durch die binären Abzweigungen kann beim insert eines neuen Elements in logarithmischer Laufzeit das Ende erreicht werden. extractMin
+    ist hierbei auch logarithmisch, da das kleinste Element entweder direkt in der Wurzel oder im Blatt liegt. Im Fall eines Blattes
+    wird die BubbleUp Methode mit logarithmischer Laufzeit aufgerufen
+
+    => beide Operationen haben eine Laufzeit von O(log n) 
 
 */
