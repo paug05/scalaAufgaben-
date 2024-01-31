@@ -154,3 +154,115 @@ def test1c()=
         testStack.push(i)
     while !testStack.isEmpty do
         println(testStack.pop())
+
+
+
+// Aufgabe 2b 
+
+/*
+
+(1) 2 hoch i Elemente in Ebene i in einem Heap:
+
+    Auf Ebene 0 hat ein Heap genau 1 Element (die Wurzel) also 2 hoch 0 Elemente. Da wir einen binären Heap betrachten hat jedes
+    Element 2 Kinder (rechts und links). Durch dieses Verhalten wird beim herunterwandern in den Ebenen die Anzahl der Elemnte 
+    immer verdoppelt. Da wir immer zwei Kinder haben und sich die Anzahl immer verdoppelt können wir für eine beliebige Ebene i 
+    kleiner als die Höhe des Baumes (die unterste Ebene muss nicht vollständig befüllt sein), die Anzahl der Elemente durch 2 hoch i berechnen.
+
+(2) auf Ebene h mindestens 1 und höchtens 2 hoch h Elemente 
+
+    Ebene h spiegelt in diesem Fall die unterste Ebene wieder, dass heißt, das sie maximal 2 hoch h Elemnet haben darf (geht aus (1)hervor )
+    da wir sonst zu viele Elemente in der Ebene hätten und h so nicht mehr die die Höhe repräsentiert (wäre sonst h+1).
+    Außerdem hat diese Ebene mindestens 1 Element, da sie sonst nicht existeren würde (Höhe wäre sonst h-1).
+    Aus diesen beiden Vehalten kann man die Aussage folgern das es auf der Ebene der Höhe mindestens 1 und maximal 2 hoch höhe 
+    Elemnet gibt.
+
+(3)
+
+
+*/
+
+// Aufgabe 2c ternärer Heap
+
+trait MyPrioQueue[K: Ordering]:
+
+    // Precondition: None
+    // Result: None
+    // Effect: (key) is now the most recent Node.
+    def insert(key: K): Unit
+
+    // Precondition: PairPrioQueue is not empty.
+    // Result: The value of the Node with the smallest key is returned.
+    // Effect: The Node with the smallest key is removed.
+    def extractMin(): K
+
+    // Precondition: None
+    // Result: None
+    // Effect: true is returned if the Queue has no Nodes, except the dummy Node.
+    def isEmpty : Boolean
+
+
+
+
+import scala.reflect.ClassTag
+
+class ternärerHeap[K: Ordering: ClassTag](capacity: Int) extends MyPrioQueue[K]:
+    private val ord = summon[Ordering[K]]
+    import ord.mkOrderingOps
+
+    private val array : Array[K] = new Array[K](if capacity < 2 then 2 else capacity)
+    private var last : Int = -1
+
+    private def parent(i : Int) : Int = (i - 1) / 3
+    private def lchild(i : Int) : Int = 3 * i + 1
+    private def mchild(i: Int): Int = 3* i + 2
+    private def rchild(i: Int) : Int = 3 * i + 3
+
+    private def swap(i : Int, j : Int) : Unit = 
+        val temp = array(i)
+        array(i) = array(j)
+        array(j) = temp
+    
+
+    def isEmpty : Boolean = last == -1
+
+    private def bubbleUp(i : Int) : Unit =
+        if array(parent(i)) > array(i) then
+            swap(i, parent(i))
+            bubbleUp(parent(i))
+
+    private def bubbleDown(i : Int) : Unit =
+        if lchild(i) <= last && array(lchild(i)) < array(i) ||
+           rchild(i) <= last && array(rchild(i)) < array(i) ||
+           mchild(i) <= last && array(mchild(i)) < array(i)
+        then
+            val child = minThree(array,lchild(i),mchild(i),rchild(i))
+            bubbleDown(child)
+    
+    private def minThree(array: Array[K],i: Int ,j: Int,k: Int  ): Int =
+        if array(i) <= array(j) && array(i) <= array(k) then i
+        else if array(j) <= array(i) && array(j) <= array(k) then j
+        else k
+
+    def insert(key : K) : Unit =
+        if last == array.size - 1 then throw Exception("The heap is full.")
+        last = last + 1
+        array(last) = key
+        bubbleUp(last)
+
+    def extractMin() : K =
+        if isEmpty then throw Exception("The heap is empty.")
+        val result = array(0)
+        array(0) = null.asInstanceOf[K]
+        swap(0, last)
+        last = last - 1
+        bubbleDown(0)
+        result
+
+def test2c()=
+    val testHeap : MyPrioQueue[Int] = ternärerHeap[Int](11)
+    testHeap.insert(31)
+    testHeap.insert(25)
+    testHeap.insert(1)
+    testHeap.insert(0)
+    while !testHeap.isEmpty do
+        println(testHeap.extractMin())
