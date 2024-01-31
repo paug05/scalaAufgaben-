@@ -264,10 +264,8 @@ class TernärHeap[K:Ordering:ClassTag](capacity:Int) extends MyPrioQueue[K]:
 def test2c()=
 
     val t : MyPrioQueue[Int] = TernärHeap[Int](10)
-    var i = 9
-    while i >= 0 do
+    for i <- 11 to 8 do
         t.insert(i)
-        i = i -1
     for i <- 0 to 9 do
         println(t.extractMin())
 
