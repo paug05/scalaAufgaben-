@@ -238,6 +238,10 @@ class ternärerHeap[K: Ordering: ClassTag](capacity: Int) extends MyPrioQueue[K]
             val child = minThree(array,lchild(i),mchild(i),rchild(i))
             bubbleDown(child)
     
+    // vorausstzung: i,j,k sind größer als 0 und kleiner als Länge des Arrays
+    // Effekt: keiner
+    // Ergebnis: der Index des kleinsten Elements ist geliefert
+
     private def minThree(array: Array[K],i: Int ,j: Int,k: Int  ): Int =
         if array(i) <= array(j) && array(i) <= array(k) then i
         else if array(j) <= array(i) && array(j) <= array(k) then j
@@ -259,10 +263,25 @@ class ternärerHeap[K: Ordering: ClassTag](capacity: Int) extends MyPrioQueue[K]
         result
 
 def test2c()=
+    val rand = new scala.util.Random
     val testHeap : MyPrioQueue[Int] = ternärerHeap[Int](11)
-    testHeap.insert(31)
-    testHeap.insert(25)
-    testHeap.insert(1)
-    testHeap.insert(0)
+    for i <- 0 to 10 do
+        testHeap.insert(rand.nextInt(20))
     while !testHeap.isEmpty do
         println(testHeap.extractMin())
+
+
+// Aufgabe 2d: Wieso ist eine Vergelichs-Operation immer langsamer als die andere 
+
+/* 
+Bei einer Prio Queue mus zwische zwei Fällen untescheiden:
+
+1. wir haben eine bereits geordnete Queue: 
+    Beim einfügen (insert) eines neun Elements haben wir die Laufzeit O(n), da wir die komplette Queue abarbeiten 
+    um die passende Stelle zu ermitteln. Bei der extractMin Methode habe nwir die konstante Laufzeit O(1), da das Minimum 
+    immer an erster Stelle liegt.
+
+2. wir haben keine geordnete Queue:
+    Beim insert wird das neue Element einafch eingefügt => konstante Laufzeit von O(1). Bei extractMin muss  
+
+*/
