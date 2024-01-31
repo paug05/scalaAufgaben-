@@ -205,70 +205,69 @@ trait MyPrioQueue[K: Ordering]:
 
 import scala.reflect.ClassTag
 
-class ternärerHeap[K: Ordering: ClassTag](capacity: Int) extends MyPrioQueue[K]:
+class TernärHeap[K:Ordering:ClassTag](capacity:Int) extends MyPrioQueue[K]:
     private val ord = summon[Ordering[K]]
     import ord.mkOrderingOps
 
     private val array : Array[K] = new Array[K](if capacity < 2 then 2 else capacity)
-    private var last : Int = -1
+    private var last = -1
 
-    private def parent(i : Int) : Int = (i - 1) / 3
-    private def lchild(i : Int) : Int = 3 * i + 1
-    private def mchild(i: Int): Int = 3* i + 2
-    private def rchild(i: Int) : Int = 3 * i + 3
+    private def parent(i:Int) = (i-1)/3
+    private def rchild(i:Int) = (3*i)+1
+    private def mchild(i:Int) = (3*i) +2
+    private def lchild(i:Int) = (3*i) +3
 
-    private def swap(i : Int, j : Int) : Unit = 
+    private def swap(i:Int,j:Int) : Unit =
         val temp = array(i)
         array(i) = array(j)
         array(j) = temp
     
-
     def isEmpty : Boolean = last == -1
 
-    private def bubbleUp(i : Int) : Unit =
+    private def minThree(a:Array[K],i:Int,j:Int,k:Int) : Int =
+        if array(i) <= array(j) && array(i) <= array(k) then
+            i
+        else if array(j) <= array(i) && array(j) <= array(k) then
+            j
+        else
+            k
+    
+    private def bubbleUp(i:Int):Unit=
         if array(parent(i)) > array(i) then
-            swap(i, parent(i))
+            swap(i,parent(i))
             bubbleUp(parent(i))
-
-    private def bubbleDown(i : Int) : Unit =
-        if lchild(i) <= last && array(lchild(i)) < array(i) ||
-           rchild(i) <= last && array(rchild(i)) < array(i) ||
-           mchild(i) <= last && array(mchild(i)) < array(i)
+    
+    private def bubbleDown(i:Int):Unit=
+        if lchild(i) <= last && array(lchild(i)) < array(i) || 
+           mchild(i) <= last && array(mchild(i)) < array(i) ||
+           rchild(i) <= last && array(rchild(i)) < array(i)
         then
             val child = minThree(array,lchild(i),mchild(i),rchild(i))
+            swap(i,child)
             bubbleDown(child)
     
-    // vorausstzung: i,j,k sind größer als 0 und kleiner als Länge des Arrays
-    // Effekt: keiner
-    // Ergebnis: der Index des kleinsten Elements ist geliefert
-
-    private def minThree(array: Array[K],i: Int ,j: Int,k: Int  ): Int =
-        if array(i) <= array(j) && array(i) <= array(k) then i
-        else if array(j) <= array(i) && array(j) <= array(k) then j
-        else k
-
-    def insert(key : K) : Unit =
-        if last == array.size - 1 then throw Exception("The heap is full.")
+    def insert(key:K) :Unit=
+        if last == array.size-1 then throw new Exception("The Queue is full")
         last = last + 1
         array(last) = key
         bubbleUp(last)
 
-    def extractMin() : K =
-        if isEmpty then throw Exception("The heap is empty.")
+    def extractMin():K =
+        if isEmpty then throw new Exception("The Queue is empty")
         val result = array(0)
         array(0) = null.asInstanceOf[K]
-        swap(0, last)
-        last = last - 1
+        swap(0,last)
+        last = last-1
         bubbleDown(0)
         result
 
 def test2c()=
     val rand = new scala.util.Random
-    val testHeap : MyPrioQueue[Int] = ternärerHeap[Int](11)
-    for i <- 0 to 10 do
-        testHeap.insert(rand.nextInt(20))
-    while !testHeap.isEmpty do
-        println(testHeap.extractMin())
+    val t : MyPrioQueue[Int] = TernärHeap[Int](10)
+    for i <- 0 to 9 do
+        t.insert(rand.nextInt(25))
+    for i <- 0 to 9 do
+        println(t.extractMin())
 
 
 // Aufgabe 2d: Wieso ist eine Vergelichs-Operation immer langsamer als die andere 
