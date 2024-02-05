@@ -120,6 +120,13 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
       else List(curr.key) ::: betweenHelp(curr.left) ::: betweenHelp(curr.right)
     betweenHelp(root)
 
+// Aufgabe 1c.)
+  private def height(curr: Node): Int =
+    curr match
+      case (_, _, left, right) =>
+        1 + Math.max(height(curr.left), height(curr.right))
+      case (_, _, null, null) => 0
+
 def test(): Unit =
   val tree = BinarySearchTree[Char, Int]()
   val dict: MyDict[Char, Int] = tree
