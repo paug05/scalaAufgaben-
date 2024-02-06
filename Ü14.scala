@@ -34,6 +34,8 @@ trait MyDict[K, V]:
 
   def height(): Int
 
+  def isAVL() : Boolean
+
 import scala.math._ // für die height Methode aus 1c.)
 
 def isAVL(): Boolean
@@ -144,6 +146,16 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
 
   def height(): Int =
     getHeight(root)
+  
+      
+  private def isAVL(curr:Node):Boolean=
+    if abs(getHeight(curr.left) - getHeight(curr.right)) <= 1 then
+      true
+    else
+      false
+    
+  def isAVL() : Boolean=
+    isAVL(root)
 
 def test(): Unit =
   val tree = BinarySearchTree[Char, Int]()
