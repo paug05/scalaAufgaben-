@@ -113,19 +113,25 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
       curr.right = n
       (k, v, curr)
 
-  private def between(k1: K, k2: K) =
-    def betweenHelp(curr: Node): List[K] =
-      if curr.right == null && curr.left == null then Nil
-      else if curr.key < k1 || curr.key > k2 then Nil
-      else List(curr.key) ::: betweenHelp(curr.left) ::: betweenHelp(curr.right)
-    betweenHelp(root)
+  private def dfs: List[K] =
+    def preorder(curr: Node): List[K] =
+      if curr == null then Nil
+      else List(curr.key) ::: preorder(curr.left) ::: preorder(curr.right)
+      // Use preorder starting at root
+    preorder(root)
+
+  def between(k1: K, k2: K): List[K] =
+    var result: List[K] = List()
+    for i <- 0 to dfs.length - 1 do
+      if dfs(i) > k1 && dfs(i) < k2 then result = result :+ dfs(i)
+    return result
 
 // Aufgabe 1c.)
-  private def height(curr: Node): Int =
-    curr match
-      case (_, _, left, right) =>
-        1 + Math.max(height(curr.left), height(curr.right))
-      case (_, _, null, null) => 0
+// private def height(curr: Node): Int =
+//   curr match
+//     case (curr.key, _, left, right) =>
+//       1 + Math.max(height(curr.left), height(curr.right))
+//     case (_, _, null, null) => 0
 
 def test(): Unit =
   val tree = BinarySearchTree[Char, Int]()
@@ -137,4 +143,4 @@ def test(): Unit =
   dict.put('B', 1)
   dict.put('G', 1)
   dict.put('F', 1)
-//   tree.between('A','F')
+  println(tree.between('A', 'F'))
