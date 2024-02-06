@@ -130,11 +130,6 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
     return result
 
 // Aufgabe 1c.)
-// private def height(curr: Node): Int =
-//   curr match
-//     case (curr.key, _, left, right) =>
-//       1 + Math.max(height(curr.left), height(curr.right))
-//     case (_, _, null, null) => 0
 
 def test(): Unit =
   val tree = BinarySearchTree[Char, Int]()
@@ -146,4 +141,5 @@ def test(): Unit =
   dict.put('B', 1)
   dict.put('G', 1)
   dict.put('F', 1)
+  tree.height
   println(tree.between('A', 'F'))
