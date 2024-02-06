@@ -30,11 +30,13 @@ trait MyDict[K, V]:
   // Result: True is returned, if and only if the dictionary is empty.
   def isEmpty: Boolean
 
-  def between(key1:K,key2:K) : List[K]
+  def between(key1: K, key2: K): List[K]
 
-  def height():Int
+  def height(): Int
 
-  def isAVL() : Boolean
+import scala.math._ // für die height Methode aus 1c.)
+
+def isAVL(): Boolean
 
 class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
   private val ord = summon[Ordering[K]]
@@ -136,26 +138,12 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
     return result
 
 // Aufgabe 1c.)
-  private def getHeight(curr:Node):Int =
-    if curr == null then
-      0
-    else
-      1 + max(getHeight(curr.right),getHeight(curr.left))
+  private def getHeight(curr: Node): Int =
+    if curr == null then 0
+    else 1 + max(getHeight(curr.right), getHeight(curr.left))
 
-  def height():Int=
-      getHeight(root)
-    
-// Aufgabe 1d.)
-
-  private def isAVL(curr:Node):Boolean=
-    if abs(getHeight(curr.left) - getHeight(curr.right)) <= 1 then
-      true
-    else
-      false
-    
-  def isAVL() : Boolean=
-      isAVL(root)
-
+  def height(): Int =
+    getHeight(root)
 
 def test(): Unit =
   val tree = BinarySearchTree[Char, Int]()
