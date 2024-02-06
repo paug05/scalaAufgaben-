@@ -3,7 +3,7 @@
 
 // Aufgabe 1a.) siehe abgegebene PDF
 
-// Aufgabe 1b.)
+// Aufgabe 1b.) siehe between Methode im Quellcode
 
 trait MyDict[K, V]:
   // In a dictionary we store pairs of keys of data type K
@@ -120,9 +120,12 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
       // Use preorder starting at root
     preorder(root)
 
+  // Voraussetzung: der Suchbaum darf nicht leer sein, sonst wird eine leere Liste übergeben
+  // Ergebnis: alle Keys die zwihen k1 und k2 liegen sind in einer Liste geliefert
+  // Effekt: kein Effekt
   def between(k1: K, k2: K): List[K] =
     var result: List[K] = List()
-    for i <- 0 to dfs.length - 1 do
+    for i <- 0 to dfs.length - 1 do // baum in sortierte Liste übertragen
       if dfs(i) > k1 && dfs(i) < k2 then result = result :+ dfs(i)
     return result
 
