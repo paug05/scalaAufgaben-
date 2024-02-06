@@ -30,6 +30,10 @@ trait MyDict[K, V]:
   // Result: True is returned, if and only if the dictionary is empty.
   def isEmpty: Boolean
 
+  def between(key1:K,key2:K) : List[K]
+
+  def height():Int
+
 class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
   private val ord = summon[Ordering[K]]
   import ord.mkOrderingOps
@@ -130,6 +134,15 @@ class BinarySearchTree[K: Ordering, V] extends MyDict[K, V]:
     return result
 
 // Aufgabe 1c.)
+  private def getHeight(curr:Node):Int =
+    if curr == null then
+      0
+    else
+      1 + max(getHeight(curr.right),getHeight(curr.left))
+
+  def height():Int=
+      getHeight(root)
+
 
 def test(): Unit =
   val tree = BinarySearchTree[Char, Int]()
@@ -141,5 +154,5 @@ def test(): Unit =
   dict.put('B', 1)
   dict.put('G', 1)
   dict.put('F', 1)
-  tree.height
+  println(tree.height())
   println(tree.between('A', 'F'))
